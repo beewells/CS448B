@@ -1,0 +1,141 @@
+body {
+    font-family: 'Merriweather', serif;
+    background: #fff;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+input, button, select {
+    font-family: 'Merriweather', serif;
+}
+
+.gallery-container {
+    position: relative;
+    overflow-x: scroll; /* Hide horizontal overflow */
+    width: 100%; /* Ensure the container takes up the full width */
+    overflow-y:auto
+}
+
+/* Gradient fades on the sides */
+.gallery-container::before,
+.gallery-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px; /* Width of the fade effect */
+    z-index: 2;
+    pointer-events: none; /* Allows clicking through the fade effect */
+}
+
+.gallery-container::before {
+    left: 0;
+    background: linear-gradient(to right, #fff 0%, transparent 0%);
+}
+
+.gallery-container::after {
+    right: 0;
+    background: linear-gradient(to left, #fff 0%, transparent 0%);
+}
+
+#album-gallery {
+    max-height: calc(200px * 3.3); /* Adjust for the height of the items */
+    overflow-x: scroll;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.gallery-row {
+    display: inline-flex;
+    overflow-y: auto;
+    margin-bottom: 8px;
+}
+
+.gallery-item {
+    position: relative; /* Needed for absolute positioning of children */
+    display: inline-flex;
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    margin-right: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+.album-title-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    color: white;
+    opacity: 0; /* Overlay is transparent by default */
+    display: flex;
+    align-items: center; /* Vertical centering */
+    justify-content: center; /* Horizontal centering */
+    transition: opacity 0.3s ease; /* Smooth transition for the overlay */
+}
+
+.album-title-text {
+    text-align: center;
+    font-size: 1em; 
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.gallery-item:hover .album-title-overlay {
+    opacity: 1;
+}
+
+#filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Wraps the filters to the next line if the space is not enough */
+    gap: 20px; /* Adjust the gap between the filters */
+    margin-top: 15px;
+}
+
+#filters label {
+    margin-right: 10px;
+    font-size: large;
+}
+
+#filters input,
+#filters select {
+    margin-right: 20px;
+    padding: 5px;
+    font-size: large;
+}
+
+#pie-charts-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 40px; /* Adjust as needed */
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.chart-container {
+    text-align: center; /* Center-align the titles */
+    flex: 1 0 25%; 
+    padding: 5px;
+    margin: 10px; 
+}
+
+.chart-title {
+    margin-top: 10px; /* Space between the chart and its title */
+    font-family: 'Merriweather', serif; /* Apply the Merriweather font */
+    font-size: 1.25rem; /* Adjust the font size as needed */
+}
+
+/* Ensure canvas elements take up equal space and resize responsively */
+canvas {
+    max-width: 100%;
+    height: auto;
+}
