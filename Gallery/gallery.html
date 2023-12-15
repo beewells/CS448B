@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>K-Pop Album Gallery</title>
+    <!-- Merriweather font -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Gallery Container to hold the gallery and create the fade effect -->
+    <div class="gallery-container">
+        <div id="album-gallery" class="gallery horizontal-scroll">
+            <!-- Gallery items will be here -->
+        </div>
+    </div>
+
+<div id="filters">
+    <label for="start-date">Start Date:</label>
+    <input type="date" id="start-date" name="start-date">
+
+    <label for="end-date">End Date:</label>
+    <input type="date" id="end-date" name="end-date">
+
+    <label for="series-or-not">Part of a Series? </label>
+    <select id="series-or-not">
+        <option value="">(All)</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+    </select>
+
+    <label for="warm-cool-neutral">Warm, Cool, or Neutral:</label>
+    <select id="warm-cool-neutral">
+        <option value="">(All)</option>
+        <option value="Warm">Warm</option>
+        <option value="Cool">Cool</option>
+        <option value="Neutral">Neutral</option>
+    </select>
+
+
+    <label for="people">People on Cover? </label>
+    <select id="people">
+        <option value="">(All)</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+    </select>
+
+    <!-- Pie Charts Container -->
+<div id="pie-charts-container">
+    <div class="chart-container">
+        <canvas id="pieChart2"></canvas>
+        <p class="chart-title">Series Distribution</p>
+    </div>
+    <div class="chart-container">
+        <canvas id="pieChart1"></canvas>
+        <p class="chart-title">Temperature Distribution</p>
+    </div>
+    <div class="chart-container">
+        <canvas id="pieChart3"></canvas>
+        <p class="chart-title">People on Cover</p>
+    </div>
+</div>
+
+    
+</div>
+<!-- Dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<!-- Custom JS -->
+<script src="script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Merriweather font -->
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+<!-- Dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Custom JS -->
+<script src="script.js"></script>
+
+
+</body>
+</html>
