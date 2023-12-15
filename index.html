@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-Pop: A Symphony of Sounds, Styles, and Global Influence</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Merriweather', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #333;
+  }
+  header, footer {
+    background: #f8f8f8;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .sidebar {
+  display: none;
+  position: fixed; /* Added position property */
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: #f8f8f8;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  padding-left: 10px;
+  border-left: 1px solid #ddd;
+  z-index: 1000; /* Optional, for higher stacking context */
+}
+
+
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.subgenre-list {
+  padding-left: 20px;
+}
+
+.genre-title {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+  font-size: 20px;
+}
+.closebtn {
+  cursor: pointer;
+  font-size: 20px;
+}
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  font-size: 30px;
+}
+
+
+/* Seoul Skyline Styles */
+.seoul-skyline {
+  background: url('iStock-464629385.avif') no-repeat center center fixed; 
+  background-size: cover;
+  width: 100%;
+  height: 500px;
+
+}
+
+.description {
+  display: none;
+  font-size: 12px;
+  margin-top: 5px;
+  color: grey;
+}
+
+/* Subgenres Styles */
+.subgenres {
+  margin-top: 20px;
+}
+
+  .container {
+    width: 85%;
+    margin: 0 auto;
+  }
+  .flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  .flex-container > div {
+    flex: 1;
+    margin: 0 10px;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Merriweather', serif;
+    color: #333;
+  }
+  h1 {
+    font-size: 2rem;
+    margin: 20px 0;
+    font-style: italic;
+  }
+  h2 {
+    font-size: 1.5rem;
+    margin: 15px 0;
+    text-align: left;
+  }
+  p {
+    line-height: 1.7;
+  }
+  a {
+    color: #326891;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .conclusion {
+    font-weight: bold;
+    padding: 20px 0;
+  }
+  .visualization-title {
+    text-align: center;
+    margin: 0px 0;
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+  .visualization {
+    background: #fafafa; 
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .visualizationTableau {
+    background: #fafafa; 
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .visualizationCenter {
+    background: #fafafa; 
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    max-width: 2000px; /* Set a maximum width if necessary */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers the content horizontally */
+}
+.visualizationGallery {
+    background: #fafafa; 
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0 auto; /* This centers the div */
+    width: 80%; /* Increase the width percentage as needed */
+    max-width: 2000px; /* Set a maximum width if necessary */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers the content horizontally */
+}
+  footer a {
+    color: #326891;
+    font-weight: bold;
+  }
+  .intro {
+    color: #555; 
+    margin-bottom: 15px;
+    margin-left: 60px;
+}
+
+.caption {
+    font-style: italic;
+    color: #777; 
+    margin-top: 10px;
+    font-family: 'Merriweather';
+    font-size: 0.25rem,
+
+}
+</style>
+
+    <meta charset="UTF-8">
+    <title>Song Visualization</title>
+    <!-- Include D3.js from a CDN -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <!-- Include SheetJS from a CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+</head>
+  
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <strong>Genres</strong>
+    <span class="closebtn" onclick="closeSidebar()">&times;</span>
+  </div>
+  <ul>
+    <!-- Hip Hop & Rap Fusion Genre -->
+  <li class="genre-item">
+    <div class="genre-title" onclick="toggleSubgenres('hiphop')">Hip Hop & Rap Fusion</div>
+    <ul id="subgenres-hiphop" class="subgenre-list" style="display: none;">
+      <li onclick="toggleDescription('desc-mainstream')">Mainstream & Alternative Hip Hop</li>
+      <p id="desc-mainstream" class="description" style="display: none;">
+        This fusion blends the rhythmic and lyrical complexity of Hip Hop and Alternative Hip Hop with the catchy hooks of Pop Rap. Originating from the streets of New York in the 1970s, Hip Hop has evolved to include a broader, more diverse sound palette.
+      </p>
+      <li onclick="toggleDescription('desc-rhythmic')">Rhythmic & Emotional</li>
+      <p id="desc-rhythmic" class="description" style="display: none;">
+        Combining the introspective and often melancholic tones of Emo Hip Hop with the rhythmic beats of Trap and the atmospheric soundscapes of Trip Hop. This subgenre is known for its deep emotional resonance and innovative beat-making.
+      </p>
+      <li onclick="toggleDescription('desc-aggressive')">Aggressive & Bold</li>
+      <p id="desc-aggressive" class="description" style="display: none;">
+        Fusing the raw, confrontational energy of Gangster Rap, the edginess of Rap Rock, and the underground vibe of Phonk. This subgenre is characterized by its bold lyrics and aggressive beats.
+      </p>
+    </ul>
+  </li>
+
+    </li>
+    <!-- Electronic Diversity Genre -->
+  <li class="genre-item">
+    <div class="genre-title" onclick="toggleSubgenres('electronic')">Electronic Diversity</div>
+    <ul id="subgenres-electronic" class="subgenre-list" style="display: none;">
+      <li onclick="toggleDescription('desc-mainstream-edm')">Mainstream EDM</li>
+      <p id="desc-mainstream-edm" class="description" style="display: none;">
+        Incorporating the pulsating rhythms of EDM, the catchy melodies of Electro-Pop, the high-energy beats of Big Beat, and the smooth grooves of Electro House. This subgenre is a staple in clubs and festivals worldwide.
+      </p>
+      <li onclick="toggleDescription('desc-experimental-niche')">Experimental & Niche</li>
+      <p id="desc-experimental-niche" class="description" style="display: none;">
+        Merging unique styles like Breakbeat, Electro-Disco, Electro-Swing, and Synthwave. This subgenre is known for its innovative use of electronic sounds and its nostalgic yet futuristic feel.
+      </p>
+      <li onclick="toggleDescription('desc-bassdriven')">Bass-Driven & Intense</li>
+      <p id="desc-bassdriven" class="description" style="display: none;">
+        Focusing on the heavy bass and complex rhythms of Dubstep, Drum and Bass, and Future Bass. This subgenre is known for its intense energy and intricate sound design.
+      </p>
+    </ul>
+  </li>
+  <!-- Latin & Tropical Rhythms Genre -->
+<li class="genre-item">
+  <div class="genre-title" onclick="toggleSubgenres('latin-tropical')">Latin & Tropical Rhythms</div>
+  <ul id="subgenres-latin-tropical" class="subgenre-list" style="display: none;">
+    <li onclick="toggleDescription('desc-mainstream-tropical')">Mainstream Tropical</li>
+    <p id="desc-mainstream-tropical" class="description" style="display: none;">
+      Blending the sunny melodies of Tropical, Tropical House, and Tropical Pop. This subgenre is characterized by its upbeat, feel-good vibes and often incorporates elements of Caribbean music.
+    </p>
+    <li onclick="toggleDescription('desc-caribbean-influence')">Caribbean Influence</li>
+    <p id="desc-caribbean-influence" class="description" style="display: none;">
+      Combining the rhythmic beats of Dancehall, the smooth flow of Reggae-Pop, and the Latin-infused beats of Moombahton. This subgenre is known for its danceable rhythms and Caribbean flair.
+    </p>
+  </ul>
+</li>
+
+<!-- Retro Revival Genre -->
+<li class="genre-item">
+  <div class="genre-title" onclick="toggleSubgenres('retro-revival')">Retro Revival</div>
+  <ul id="subgenres-retro-revival" class="subgenre-list" style="display: none;">
+    <li onclick="toggleDescription('desc-classic-styles')">Classic Styles</li>
+    <p id="desc-classic-styles" class="description" style="display: none;">
+      Reviving the timeless grooves of Funk, Disco, Bossa Nova, Jazz, and Swing. These genres are known for their rich musical heritage and have influenced countless modern genres.
+    </p>
+    <li onclick="toggleDescription('desc-modern-retro')">Modern Retro</li>
+    <p id="desc-modern-retro" class="description" style="display: none;">
+      Fusing classic elements with contemporary sounds in styles like Nu-Disco, Bubblegum Jersey Club, Baltimore Club, and Crunk. This subgenre brings a fresh twist to retro music.
+    </p>
+  </ul>
+</li>
+
+<li class="genre-item">
+  <div class="genre-title" onclick="toggleSubgenres('pop-variations')">Pop Variations</div>
+  <ul id="subgenres-pop-variations" class="subgenre-list" style="display: none;">
+    <li onclick="toggleDescription('desc-modern-urban')">Modern & Urban</li>
+    <p id="desc-modern-urban" class="description" style="display: none;">
+      Combining Urban Pop's streetwise sensibility with the rhythmic elements of Hip Hop Pop, the soulfulness of R&B Pop, and the edginess of Trap Pop. This subgenre reflects the urban experience with a pop sensibility.
+    </p>
+    <li onclick="toggleDescription('desc-nostalgic-vintage')">Nostalgic & Vintage</li>
+    <p id="desc-nostalgic-vintage" class="description" style="display: none;">
+      Blending the classic sounds of Retro Pop, the ornate arrangements of Baroque Pop, the summery vibes of Summer Pop, and the emotional depth of Blues Pop. This subgenre evokes a sense of nostalgia and timelessness.
+    </p>
+    <li onclick="toggleDescription('desc-experimental-diverse')">Experimental & Diverse</li>
+    <p id="desc-experimental-diverse" class="description" style="display: none;">
+      Pushing the boundaries with the psychedelic soundscapes of Psychedelic Pop, the innovative sound design of Experimental Pop, the avant-garde approach of Avant-Pop, and the ethereal quality of Dream Pop.
+    </p>
+  </ul>
+</li>
+
+<!-- Electronic & Synth Fusion Genre -->
+<li class="genre-item">
+  <div class="genre-title" onclick="toggleSubgenres('electronic-synth')">Electronic & Synth Fusion</div>
+  <ul id="subgenres-electronic-synth" class="subgenre-list" style="display: none;">
+    <li onclick="toggleDescription('desc-synth-driven')">Synth-Driven</li>
+    <p id="desc-synth-driven" class="description" style="display: none;">
+      Centering around the electronic sounds of Electro-Pop, the retro-futuristic feel of Synthwave, and the beat-driven Electronic Hip Hop. This subgenre is known for its prominent use of synthesizers.
+    </p>
+    <li onclick="toggleDescription('desc-rock-fusion')">Rock Fusion</li>
+    <p id="desc-rock-fusion" class="description" style="display: none;">
+      Combining the raw energy of Electro-Rock with the club-ready beats of Jersey Club. This subgenre brings together the worlds of rock and electronic music in an exciting fusion.
+    </p>
+  </ul>
+</li>
+
+<!-- R&B Evolution Genre -->
+<li class="genre-item">
+  <div class="genre-title" onclick="toggleSubgenres('rnb-evolution')">R&B Evolution</div>
+  <ul id="subgenres-rnb-evolution" class="subgenre-list" style="display: none;">
+    <li onclick="toggleDescription('desc-classic-soulful')">Classic & Soulful</li>
+    <p id="desc-classic-soulful" class="description" style="display: none;">
+      Embracing the heartfelt melodies of Soul, the smooth grooves of R&B, and the innovative sounds of Neo Soul. This subgenre is known for its emotional depth and soulful vocals.
+    </p>
+    <li onclick="toggleDescription('desc-modern-alternative')">Modern & Alternative</li>
+    <p id="desc-modern-alternative" class="description" style="display: none;">
+      Merging the contemporary sounds of Alternative R&B with the polished production of Contemporary R&B. This subgenre is characterized by its innovative approach to traditional R&B.
+    </p>
+  </ul>
+</li>
+
+<!-- International & World Influences Genre -->
+<li class="genre-item">
+  <div class="genre-title" onclick="toggleSubgenres('international-world')">International & World Influences</div>
+  <ul id="subgenres-international-world" class="subgenre-list" style="display: none;">
+    <li onclick="toggleDescription('desc-global-beats')">Global Beats</li>
+    <p id="desc-global-beats" class="description" style="display: none;">
+      Combining the diverse rhythms of Worldbeat, the energetic beats of Afrobeat, and the traditional Korean percussion of Samul Nori. This subgenre reflects a global musical landscape.
+    </p>
+    <li onclick="toggleDescription('desc-hiphop-globalization')">Hip Hop Globalization</li>
+    <p id="desc-hiphop-globalization" class="description" style="display: none;">
+      Explores the worldwide impact of Hip Hop, including subgenres like Chicago Drill and Boom Bap, which have influenced music across the globe.
+    </p>
+  </ul>
+</li>
+
+<!-- Rock & Alternative Genre -->
+<li class="genre-item">
+  <div class="genre-title" onclick="toggleSubgenres('rock-alternative')">Rock & Alternative</div>
+  <ul id="subgenres-rock-alternative" class="subgenre-list" style="display: none;">
+    <li onclick="toggleDescription('desc-classic-rock')">Classic Rock Styles</li>
+    <p id="desc-classic-rock" class="description" style="display: none;">
+      Includes timeless rock genres like New Wave, Grunge, Punk Rock, and Soft Rock, each with its unique sound and cultural impact.
+    </p>
+    <li onclick="toggleDescription('desc-alternative-progressive')">Alternative & Progressive</li>
+    <p id="desc-alternative-progressive" class="description" style="display: none;">
+      Covers the spectrum from Alternative Rock to Progressive Rock, characterized by their exploration of new sounds and complex compositions.
+    </p>
+  </ul>
+</li>
+
+<!-- Dance & Party Genre -->
+<li class="genre-item">
+  <div class="genre-title" onclick="toggleSubgenres('dance-party')">Dance & Party</div>
+  <ul id="subgenres-dance-party" class="subgenre-list" style="display: none;">
+    <li onclick="toggleDescription('desc-pop-dance-fusion')">Pop Dance Fusion</li>
+    <p id="desc-pop-dance-fusion" class="description" style="display: none;">
+      Merges the upbeat energy of Dance-Pop with the catchy rhythms of House Pop, creating music that's perfect for the dancefloor.
+    </p>
+    <li onclick="toggleDescription('desc-house-varieties')">House Varieties</li>
+    <p id="desc-house-varieties" class="description" style="display: none;">
+      Explores different styles of House music, from the hard-hitting beats of Electro House to the deep grooves of Deep House.
+    </p>
+  </ul>
+</li>
+<!-- Eclectic & Others Genre -->
+<li class="genre-item">
+  <div class="genre-title" onclick="toggleSubgenres('eclectic-others')">Eclectic & Others</div>
+  <ul id="subgenres-eclectic-others" class="subgenre-list" style="display: none;">
+    <li onclick="toggleDescription('desc-unique-diverse')">Unique & Diverse</li>
+    <p id="desc-unique-diverse" class="description" style="display: none;">
+      Features a wide range of unique styles like Psytrance, New Jack Swing, Future Bounce, and Reggaeton, known for their diverse sounds and crossover appeal.
+    </p>
+    <li onclick="toggleDescription('desc-crossover-experimental')">Crossover & Experimental</li>
+    <p id="desc-crossover-experimental" class="description" style="display: none;">
+      Blends various genres like Euro-Pop, Classical Crossover, Symphonic Metal, Alternative Dance, and Pop-Rock, known for their experimental approach and genre-crossing elements.
+    </p>
+  </ul>
+</li>
+</ul>
+</div>
+<body>
+
+<header>
+    <div class="container">
+        <h1>K-Pop: A Symphony of Sounds, Styles, and Global Influence</h1>
+    </div>
+</header>
+<div class = "seoul-skyline"> </div>
+<div class="container">
+    <div class="intro">
+      <h2>By: Blaine Wells</h2>
+      <p>Dec. 12th, 2023</p>
+    </div>
+
+<div class = "container"> 
+    <p> On a bustling Seoul street corner, the air vibrates with the latest K-Pop hit, a testament to a genre that has echoed far beyond Korea's borders. Korean pop music, once a nascent musical experiment, has bloomed into a global cultural force, reshaping the music industry with its unique blend of sounds, styles, and performances.  The genre’s vibrant ecosystem is fueled by the creative forces of its boy and girl groups, each weaving their own narrative through the music they create, the images they portray, and the audiences they captivate. This journey into the K-Pop phenomenon reveals the distinctive stories of these groups, illustrated through their musical diversity, visual artistry, and commercial triumphs.</p>
+</div>
+  
+<div class = "container"> 
+  <h2> The Genesis of Korean Pop Music</h2>
+  <p> It was the 1990s when South Korea's music scene was first exposed to the beginnings of modern K-Pop through the performances of Seo Taiji and Boys. With a groundbreaking mix of Western genres and Korean musical elements, they carved a niche that would grow into a worldwide sensation. Today, K-Pop is not just a national treasure; it's an international spectacle, a testament to Korea's cultural dynamism. </p>
+</div>
+
+<div class="container">
+  <h2>I. The Subgenre Spectrum</h2>
+  <p>The musical identities of boy and girl K-Pop groups are as varied as the genres they encompass. From the sharp beats of hip-hop to the buoyant rhythms of pop, these groups have shaped a global soundscape marked by an array of distinct musical styles.</p> 
+  <h3>Echoes: The Storytelling of K-Pop Album Covers</h3>
+  <div class="flex-container">
+    <div class="visualization">
+        <h2 class="visualization-title">Musical Distribution of Boy Groups</h2>
+      <ul>
+        <div id="observablehq-chart-93dcad1b"></div>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css">
+            <script type="module">
+            import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+            import define from "https://api.observablehq.com/d/d7284e7e74d31a0e@latest.js?v=4";
+            new Runtime().module(define, name => {
+            if (name === "chart") return new Inspector(document.querySelector("#observablehq-chart-93dcad1b"));
+            });
+            </script>
+      </ul>
+    </div>
+
+    <div class="visualization">
+        <h2 class="visualization-title">Musical Distribution of Girl Groups</h2>
+      <ul>
+        <div id="observablehq-chart-e5a240fd"></div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css">
+        <script type="module">
+        import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+        import define from "https://api.observablehq.com/d/88e9102eed7d50cb@441.js?v=4";
+        new Runtime().module(define, name => {
+          if (name === "chart") return new Inspector(document.querySelector("#observablehq-chart-e5a240fd"));
+        });
+        </script>
+      </ul>
+    </div>
+  </div>
+
+
+  <p class="caption"> Interactivity Notes: Tap on any genre to explore it's subgenres and the artists that have explored it! Tap on the interior of the sunburst diagram to return to previous levels.
+    <a href="javascript:void(0)" onclick="openSidebar()">Click here</a>
+  for genre and subgenres descriptions. </p>
+
+  <p>As the sunburst charts reveal, the musical distribution of boy and girl K-Pop groups is a kaleidoscope of genres and subgenres. </p>
+  <p>The subgenre spectrum for boy groups reveals a world where bold, aggressive beats merge with smooth R&B influences and electronic melodies. Here, the exploration of hip-hop and rap underscores a propensity for innovation, while dance and pop elements echo a commitment to dynamic performance.</p>
+  <p>In contrast, girl groups paint their section of the K-Pop canvas with vibrant strokes of pop dance fusion, rich R&B textures, and synth-driven tunes. Their musical distribution tells a story of diversity and adaptability, embracing a range of styles from the classic to the contemporary.</p>
+
+  <h2>II. Visual Harmonies</h2>
+  <p>Physical albums and album covers are not mere packaging; they are the preface to the stories held within each track. The artistic choices in these covers offer a window into the soul of the music and the identity of the artists. Male and female idol groups alike use this space to invite listeners into their world, with each album cover serving as a visual overture to the melodies and lyrics that lie beneath.</p> 
+  <h3>Echoes: The Storytelling of K-Pop Album Covers</h3>
+<div class="visualizationGallery">
+  <h2 class="visualization-title">Album Covers by Metric Indicators</h2>
+  <iframe src="Gallery/gallery.html" style="width:90%; height:1290px; border:none;"></iframe>
+</div>
+
+<p class="caption"> Interactivity Notes: First, begin by selecting if you would like to view albums that are consecutive releases. From there, feel free to try whatever combination of filters you would like. To reset the graphic, reset the filters to their initial values. Additionally, the album covers are pressable!</p>
+<p>From these charts, we can see that boy groups and girl groups drastically differ in their marketing strategies.</p>
+<p>Male idol groups often forgo featuring members for abstract concepts, with a tendency to opt for a series of similarly related consecutive releases, suggesting a narrative continuity that reflects in their musical themes.</p>
+<p>Conversely, female idol group covers frequently highlight the members themselves, a direct look into the soul of group, as they lean towards the standalone albums that embrace a diverse array of aesthetics, from the bold and colorful to the understated and elegant. </p>
+
+
+  <h2>III. The Commerical Crescendo</h2>
+  <p>In the dynamic marketplace of K-Pop, first-week album sales and music show wins are the dual currencies of success. While first-week sales quantify the immediate embrace of an album by fans, music show wins reflect enduring popularity and cultural momentum through metrics such as fan engagement, live voting, and judging from industry professionals. These victories, while similar in their measure of success, narrate different aspects of a group's journey—sales capturing the rush of a debut, wins charting the steady pulse of presence in the industry.</p> 
+  <h3>The Score: K-Pop's Commercial Hits and Wins</h3>
+  <div class="visualizationCenter">
+    <h2 class="visualization-title"> Music Show Wins and First Week Sales Growth Over Time</h2>
+    <div class='tableauPlaceholder' id='viz1702617668621' style='position: relative'><noscript>
+      <a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DataViz_17026175991630&#47;Dashboard1&#47;1_rss.png' style='border: none' />
+      </a></noscript><object class='tableauViz'  style='display:none;'>
+        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> 
+        <param name='site_root' value='' /><param name='name' value='DataViz_17026175991630&#47;Dashboard1' />
+        <param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DataViz_17026175991630&#47;Dashboard1&#47;1.png' /> 
+        <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' />
+        <param name='display_overlay' value='no' />
+        <param name='display_count' value='yes' />
+        <param name='language' value='en-US' /></object></div>                
+        <script type='text/javascript'>                    
+        var divElement = document.getElementById('viz1702617668621');                    
+        var vizElement = divElement.getElementsByTagName('object')[0];                    
+        if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} else if ( divElement.offsetWidth > 500 ) 
+        { vizElement.style.width='1000px';vizElement.style.height='827px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                    
+        var scriptElement = document.createElement('script');                    
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+        </script>
+        
+</div>
+  <p class="caption"> Interactivity Notes: Feel free to mess around with whatever filter's you see fit!</p>
+  <p>A pattern emerges where boy groups often achieve staggering first-week sales, demonstrating the intense loyalty of their fanbase. Girl groups, while they may see lower initial sales figures, often accumulate a greater number of music show wins, indicating a sustained popularity and impact on the cultural zeitgeist.</p>
+      
+  
+  <div>
+    <h2>In Conclusion: K-Pop as a Global Cultural Phenomenon</h2>
+    <p>The odyssey of K-Pop is an ongoing narrative of artistic expression and commercial success. The distinctions between boy and girl groups, as much cultural as they are creative, reveal the dynamism and complexity of a genre that continues to redefine the boundaries of global music. Through the lens of these visualizations, we gain insight into the nuances that make K-Pop a harmonious yet diversified world symphony.</p>
+  </div>
+  
+  <h2>Spotify Playlists: Dive into the World of K-Pop</h2>
+  
+  <div class="flex-container">
+    <div class="playlist">
+      <ul>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5SLxcLpMu60rwKO51xIxdc?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </ul>
+    </div>
+    
+    <div class="playlist">
+      <ul>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0LR6NOVN4sxwi15soPSVPP?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </ul>
+    </div>
+  </div>
+  <p class="caption"> Hey! Thanks for coming all the way down here! Some friends and I have curated two Spotify playlists, featuring some of the most iconic tracks from boy and girl groups. From the explosive energy of BTS and BLACKPINK to the melodious tunes of Mamamoo and Stray Kids, these playlists are a testament to the diverse and dynamic nature of K-pop. Whether you're a long-time fan or new to the genre, these playlists offer a perfect soundtrack to explore the rich musical landscape of K-pop. It doesn't hurt that these are song of my favorite songs.</p>
+</div>
+
+</div>
+<footer>
+    <div class="container">
+      <p>&copy; Blaine's K-Pop Analysis. No rights reserved.</p>
+      <p> Course Website: <a href="https://magrawala.github.io/cs448b-fa23/" target="_blank">CS448B</a></p>
+    </div>
+</footer>
+
+<script>
+// JavaScript function to open the sidebar
+function openSidebar() {
+  var sidebar = document.getElementById("sidebar");
+  if (sidebar) {
+    sidebar.style.display = "block";
+  }
+}
+
+function closeSidebar() {
+  var sidebar = document.getElementById("sidebar");
+  if (sidebar) {
+    sidebar.style.display = "none";
+  }
+}
+
+// You might already have these functions, but if not, add them too
+function toggleSubgenres(genreId) {
+  var subgenresList = document.getElementById("subgenres-" + genreId);
+  var isHidden = subgenresList.style.display === 'none';
+  
+  // Hide all subgenre lists
+  document.querySelectorAll('.subgenre-list').forEach(function(el) {
+    el.style.display = 'none';
+  });
+
+  // Show the clicked subgenre list
+  subgenresList.style.display = isHidden ? 'block' : 'none';
+}
+
+function toggleDescription(descId) {
+  var desc = document.getElementById(descId);
+  var isHidden = desc.style.display === 'none';
+  
+  // Hide all descriptions
+  document.querySelectorAll('.description').forEach(function(el) {
+    el.style.display = 'none';
+  });
+
+  // Show the clicked description
+  desc.style.display = isHidden ? 'block' : 'none';
+}
+
+</script>
+</body>
+</html>
